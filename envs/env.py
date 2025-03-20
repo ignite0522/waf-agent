@@ -3,11 +3,12 @@ import numpy as np
 from gym import spaces
 import random
 from sklearn.model_selection import train_test_split
-from waf_agent.envs.xss_manipulator import Xss_Manipulator
-from waf_agent.envs.features import Features
-from waf_agent.envs.waf import Waf_Check
+from envs.xss_manipulator import Xss_Manipulator
+from envs.features import Features
+from envs.waf import Waf_Check
 
-samples_file = "./envs/xss-samples-all.txt"
+
+samples_file = "/Users/guyuwei/security_ai/大佬项目/ItBaizhan/代码/waf_agent/envs/xss-samples-all.txt"
 samples = []
 with open(samples_file) as f:
     for line in f:
@@ -43,12 +44,12 @@ class Env(gym.Env):
     def reset(self, seed=None, options=None):
         self.current_sample = random.choice(samples_train)
         observation = self.features.extract(self.current_sample)
-        print(f'observation初始样本为：{observation.shape}')
+        # print(f'observation初始样本为：{observation.shape}')
         return observation
 
     def step(self, action):
         r = 0
-        terminated = False  # 默认本轮学习未结束
+        done = False  # 默认本轮学习未结束
         truncated = False  # 表示回合是否被截断
 
         _action = ACTION_LOOKUP[action]
@@ -58,11 +59,11 @@ class Env(gym.Env):
         #调用waf_check的check方法，检测当前样本是否存在waf漏洞
         if not self.waf_check.check_xss(modified_sample):
             r = 10  # 免杀成功，奖励10分
-            print(f'免杀成功！,成功绕过{self.current_sample}')
+            print(repr(f'免杀成功！,原样本:{self.current_sample},免杀样本:{modified_sample}'))
 
         observation = self.features.extract(self.current_sample)
 
-        return observation, r, terminated, truncated, {}
+        return observation, r, done, truncated, {}
 
     def render(self, mode='human', close=False):
         """
