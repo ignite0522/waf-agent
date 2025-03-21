@@ -10,7 +10,7 @@ DQN实际上就是Q learning+network
 
 那先来看看Q learning，公式如下：
 
-![image-20250320103940595](assets/XJwFtLrWNRSEkyv.png)
+![image-20250320103940595](https://s2.loli.net/2025/03/21/zY3ZCDt8I5K9fML.png)
 
 ```
 Q(S_t, A_t)即当前状态下动作A_t的Q值,为待更新值
@@ -99,7 +99,7 @@ def learn(self, s, a, r, s_):
       self.q_table.loc[s, a] += self.lr * (q_target - q_predict)
 ```
 
-这段代码就是公式![image-20250320103940595](assets/yQAvmuEfFL1Tg4j.png)
+这段代码就是公式![image-20250320103940595](https://s2.loli.net/2025/03/21/zY3ZCDt8I5K9fML.png)
 
 的具体实现过程，让我着重关注一下q_target和q_predict，q_target 是下一个状态的最大Q值，q_predict是当前状态的Q值，这个公式的目的就是使当前状态尽可能的去你和下一状态，计算下一状态和当前状态Q值的差，再乘以折扣率Gamma（即是这个误差存在一定损失），再乘上学习率alpha，这样就可以逐步的去拟合下一状态的Q值，讲到这里是不是有神经网络梯度下降那味儿了
 
@@ -130,7 +130,7 @@ B.同样的道理，把在线网络去拟合target网络这个过程比作是打
 
 1.**在线网络训练**：在线网络和环境交互，在线网络执行了一个动作，环境会返回（状态、动作、奖励、新状态、新动作）然后使用这些数据来更新网络参数，我们希望在线网络的预测值接近于目标值，我们可以使用梯度下降算法来最小化在线网络预测的Q值和目标网络的目标值之间的差距（通常使用平方损失函数）。
 
-![image-20250320140741459](assets/eBTXcRGNWw6H3qI.png)
+![image-20250320140741459](https://s2.loli.net/2025/03/21/c1N72vQSfXboICO.png)
 
 Q值的更新公式为：
 
@@ -272,7 +272,7 @@ if __name__ == '__main__':
 
 除开这两个重要的，还有接受DQNAgent命令执行具体免杀操作的XSS_Manipulator模块，正则检测的WAF模块，还有一个Features特征提取模块，下图是整个流程图：
 
-![image-20250320160058395](assets/tf9D4awBYVSGWMl.png)
+![image-20250320160058395](https://s2.loli.net/2025/03/21/D3mFI1v5Lxt2PC7.png)
 
 那接下来讲讲features模块
 
@@ -325,7 +325,7 @@ if __name__ == '__main__':
 
 这里用公式解释一下：
 
-神经网络的参数更新公式：![image-20250320163054703](assets/Tw6mQC3YGzpi9Vd.png)
+神经网络的参数更新公式：![image-20250320163054703](https://s2.loli.net/2025/03/21/2vfOX7V6eFcpq9h.png)
 
 其中：
 
@@ -333,14 +333,14 @@ if __name__ == '__main__':
 - alphaα 是学习率（learning rate）
 - L 是损失函数
 
-在反向传播（Backpropagation）时，权重的梯度计算：![image-20250320163228638](assets/7sQgUmyS4eE2GTk.png)
+在反向传播（Backpropagation）时，权重的梯度计算：![image-20250320163228638](https://s2.loli.net/2025/03/21/vXQ82MK4dqwxgpU.png)
 
 其中：
 
--  ![image-20250320163455087](assets/FHx4jtihTeVlWMU.png)由损失函数决定
--  ![image-20250320163512148](assets/rK72VsSZPBoliFA.png)由输入数据的特征值决定
+-  ![image-20250320163455087](https://s2.loli.net/2025/03/21/3uVdPpvNOkf62Bh.png)由损失函数决定
+-  ![image-20250320163512148](https://s2.loli.net/2025/03/21/h8owJrYADcnbxtf.png)由输入数据的特征值决定
 
-如果特征x的数值范围过大（例如 1000），那么梯度计算时：![image-20250320163628676](assets/7houwNyEkFgUx2B.png)
+如果特征x的数值范围过大（例如 1000），那么梯度计算时：![image-20250320163628676](https://s2.loli.net/2025/03/21/JfVCtgR9hprwcsm.png)
 
 梯度就会变得很大，导致：
 
@@ -825,7 +825,7 @@ repaly经验重放那里前面已经讲了很多了，没什么好说的了
 
 值得注意的是我这里在梯度下降时使用的是mse来计算损失函数
 
-![image-20250320212138855](assets/C36PbHZXFGAsdzO.png)
+![image-20250320212138855](https://s2.loli.net/2025/03/21/hriZGg2k6RBuD5C.png)
 
 ## 损失函数
 
@@ -873,7 +873,7 @@ repaly经验重放那里前面已经讲了很多了，没什么好说的了
 
 ### 回归任务 vs. 二分类任务
 
-均方误差（MSE，Mean Squared Error）：![image-20250320220112842](assets/HgOdoYJUtVCs7Q1.png)
+均方误差（MSE，Mean Squared Error）：![image-20250320220112842](https://s2.loli.net/2025/03/21/YpaH2KSQvJWBse3.png)
 
 回归任务可以根据公式来看，主要是数值逼近问题，所以均方误差用来衡量预测值和真实值的误差再合适不过
 
@@ -883,7 +883,7 @@ repaly经验重放那里前面已经讲了很多了，没什么好说的了
 
 二元交叉熵（Binary Crossentropy, BCE）：
 
-公式：![image-20250320214656558](assets/prwWtE8cg9yIbfV.png)
+公式：![image-20250320214656558](https://s2.loli.net/2025/03/21/mdptNirL7ajPvyE.png)
 
 想必大家在刚接触时都有疑惑，为什么分类任务不用均方误差？
 
