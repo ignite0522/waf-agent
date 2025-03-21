@@ -1,7 +1,3 @@
----
-typora-copy-images-to: upload
----
-
 # 基于强化学习的DQN智能体自动生成XSS
 
 ## Q learning 和 DQN 
