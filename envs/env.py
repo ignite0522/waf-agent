@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from envs.xss_manipulator import Xss_Manipulator
 from envs.features import Features
 from envs.waf import Waf_Check
+# from envs.WAF_PLUS import Waf_Check
 
 
 samples_file = "/Users/guyuwei/security_ai/大佬项目/ItBaizhan/代码/waf_agent/envs/xss-samples-all.txt"
@@ -61,8 +62,9 @@ class Env(gym.Env):
             r = 10  # 免杀成功，奖励10分
             print(repr(f'免杀成功！,原样本:{self.current_sample},免杀样本:{modified_sample}'))
 
-        observation = self.features.extract(self.current_sample)
 
+        # observation = self.features.extract(self.current_sample)
+        observation = self.features.extract(modified_sample)
         return observation, r, done, truncated, {}
 
     def render(self, mode='human', close=False):

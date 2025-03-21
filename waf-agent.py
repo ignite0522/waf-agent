@@ -75,4 +75,4 @@ if __name__ == '__main__':
     agent = DQNAgent(state_size, action_size)
 
     train_dqn(env, agent, episodes=100, batch_size=32)
-    agent.model.save("dqn_model.h5")
+    agent.model.save("dqn_model.keras")
