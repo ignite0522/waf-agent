@@ -1,4 +1,5 @@
 # 基于强化学习的DQN智能体自动生成XSS
+可以移步到奇安信攻防社区看这篇文章  https://forum.butian.net/share/4305
 
 ## Q learning 和 DQN 
 
